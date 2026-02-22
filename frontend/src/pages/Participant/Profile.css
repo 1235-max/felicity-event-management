@@ -1,0 +1,236 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Caveat:wght@400;500;600;700&family=Shadows+Into+Light&display=swap');
+
+.profile-main-title {
+  text-align: center;
+  margin-bottom: 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 3rem;
+}
+
+.animated-profile-info {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.static-info {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1.5rem;
+  border-radius: 15px;
+  margin-top: 3rem;
+  backdrop-filter: blur(10px);
+}
+
+.info-item {
+  margin: 1.2rem 0;
+  font-size: 1.3rem;
+  color: #000000;
+  font-family: 'Caveat', cursive;
+  font-weight: 600;
+  text-align: center;
+}
+
+.info-item strong {
+  color: #000000;
+  font-family: 'Caveat', cursive;
+  font-weight: 700;
+  font-size: 1.4rem;
+}
+
+.not-editable {
+  font-size: 1rem;
+  opacity: 0.7;
+  font-style: italic;
+  color: #000000;
+  font-family: 'Shadows Into Light', cursive;
+}
+
+/* Handwritten Section */
+.handwritten-section {
+  padding: 3rem 2rem;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  border-radius: 20px;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.handwritten-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 35px,
+      rgba(255, 255, 255, 0.03) 35px,
+      rgba(255, 255, 255, 0.03) 36px
+    );
+  pointer-events: none;
+}
+
+.handwritten-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2.5rem 0;
+  opacity: 0;
+  transform: translateY(30px) scale(0.95);
+  position: relative;
+}
+
+/* Staggered animations */
+.animate-item-1 {
+  animation: fadeInUp 1s ease-out 0.3s forwards;
+}
+
+.animate-item-2 {
+  animation: fadeInUp 1s ease-out 0.8s forwards;
+}
+
+.animate-item-3 {
+  animation: fadeInUp 1s ease-out 1.3s forwards;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.label-script {
+  font-family: 'Shadows Into Light', cursive;
+  font-size: 1.8rem;
+  color: #000000;
+  margin-bottom: 0.5rem;
+  text-shadow: none;
+  letter-spacing: 2px;
+}
+
+.value-script {
+  font-family: 'Dancing Script', cursive;
+  font-size: 2.8rem;
+  font-weight: 600;
+  color: #000000;
+  text-shadow: none;
+  padding: 0.5rem 1rem;
+  position: relative;
+  animation: flash 1.5s ease-in-out infinite;
+}
+
+@keyframes flash {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+/* Decorative underline */
+.handwritten-item::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #667eea, transparent);
+  animation: expandLine 0.8s ease-out forwards;
+  animation-delay: inherit;
+}
+
+.animate-item-1::after {
+  animation-delay: 0.6s;
+}
+
+.animate-item-2::after {
+  animation-delay: 1.1s;
+}
+
+.animate-item-3::after {
+  animation-delay: 1.6s;
+}
+
+@keyframes expandLine {
+  to {
+    width: 80%;
+  }
+}
+
+/* Edit button animation */
+.edit-btn-animated {
+  display: block;
+  margin: 2rem auto 0;
+  min-width: 180px;
+  opacity: 0;
+  animation: fadeInButton 0.8s ease-out 2s forwards;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+@keyframes fadeInButton {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.edit-btn-animated::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.edit-btn-animated:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.edit-btn-animated:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .profile-main-title {
+    font-size: 2rem;
+  }
+  
+  .label-script {
+    font-size: 1.4rem;
+  }
+  
+  .value-script {
+    font-size: 2rem;
+  }
+  
+  .handwritten-section {
+    padding: 2rem 1rem;
+  }
+}

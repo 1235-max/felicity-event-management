@@ -1,0 +1,149 @@
+.trending-section {
+  margin: 30px 0;
+  padding: 30px;
+  background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+  border-radius: 12px;
+}
+
+.trending-section h2 {
+  margin-bottom: 20px;
+}
+
+.trending-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.trending-card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.trending-card:hover {
+  transform: scale(1.05);
+}
+
+.trending-card h3 {
+  color: #333;
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+.trending-card p {
+  color: #666;
+  font-size: 0.85rem;
+}
+
+.view-count {
+  display: inline-block;
+  margin-top: 8px;
+  color: #F59E0B;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.filters-container {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin: 30px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.search-bar input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+}
+
+.filters-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+}
+
+.filters-row select,
+.filters-row input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.btn-reset {
+  background: #6B7280;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.btn-reset:hover {
+  background: #4B5563;
+}
+
+.event-card-link {
+  text-decoration: none;
+}
+
+.event-badge {
+  display: inline-block;
+  background: #4F46E5;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  margin-bottom: 10px;
+}
+
+.event-badge.iiit {
+  background: #F59E0B;
+  margin-left: 8px;
+}
+
+.event-organizer {
+  color: #4F46E5;
+  font-weight: 600;
+  margin: 8px 0;
+}
+
+.event-description {
+  color: #666;
+  line-height: 1.5;
+  margin: 12px 0;
+}
+
+.event-details {
+  margin: 15px 0;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.event-details p {
+  margin: 5px 0;
+  font-size: 0.9rem;
+}
+
+.event-footer {
+  display: flex;
+  justify-content: space-between;
+  color: #666;
+  font-size: 0.85rem;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+}

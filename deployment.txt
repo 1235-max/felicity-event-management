@@ -1,0 +1,344 @@
+# Felicity Event Management - Deployment Links
+
+## 🌐 Live Application URLs
+
+### Frontend (Vercel)
+**Production URL**: https://felicity-frontend.vercel.app
+- Platform: Vercel
+- Framework: React + Vite
+- Build Command: `npm run build`
+- Output Directory: `dist`
+
+### Backend (Render)  
+**Base API URL**: https://felicity-backend.onrender.com
+- Platform: Render
+- Runtime: Node.js
+- Start Command: `npm start`
+
+### Database
+**MongoDB Atlas**: Connected via MONGODB_URI environment variable
+- Provider: MongoDB Atlas
+- Connection: Secure cluster connection
+
+---
+
+## 📦 Deployment Instructions
+
+### Prerequisites
+1. GitHub account with repository pushed
+2. MongoDB Atlas account with database created
+3. Vercel account (for frontend)
+4. Render account (for backend)
+
+---
+
+### 🎨 Frontend Deployment (Vercel)
+
+#### Step 1: Prepare Repository
+```bash
+cd frontend
+git add .
+git commit -m "Prepare for deployment"
+git push origin main
+```
+
+#### Step 2: Deploy to Vercel
+1. Go to https://vercel.com/new
+2. Import your GitHub repository
+3. Configure project:
+   - **Framework Preset**: Vite
+   - **Root Directory**: `frontend`
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `dist`
+   - **Install Command**: `npm install`
+
+#### Step 3: Environment Variables
+Add the following in Vercel Dashboard → Settings → Environment Variables:
+```
+VITE_API_URL=https://your-backend-url.onrender.com/api
+```
+
+#### Step 4: Deploy
+- Click "Deploy"
+- Wait for build to complete
+- Your frontend will be live at `https://your-project.vercel.app`
+
+---
+
+### ⚙️ Backend Deployment (Render)
+
+#### Step 1: Prepare Repository  
+Ensure `render.yaml` exists in backend folder (already configured)
+
+#### Step 2: Create MongoDB Atlas Database
+1. Go to https://cloud.mongodb.com
+2. Create a new cluster (free tier available)
+3. Create a database user with password
+4. Whitelist IP: `0.0.0.0/0` (allow all IPs)
+5. Get connection string: 
+   ```
+   mongodb+srv://username:password@cluster.mongodb.net/felicity?retryWrites=true&w=majority
+   ```
+
+#### Step 3: Deploy to Render
+1. Go to https://render.com/create
+2. Select "Web Service"
+3. Connect your GitHub repository
+4. Configure:
+   - **Name**: felicity-backend
+   - **Root Directory**: `backend`
+   - **Environment**: Node
+   - **Build Command**: `npm install`
+   - **Start Command**: `npm start`
+   - **Plan**: Free
+
+#### Step 4: Environment Variables
+Add these in Render Dashboard → Environment:
+```
+NODE_ENV=production
+PORT=10000
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/felicity?retryWrites=true&w=majority
+JWT_SECRET=your-super-secret-jwt-key-minimum-32-characters-long
+JWT_EXPIRE=7d
+FRONTEND_URL=https://your-project.vercel.app
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_USER=your-email@gmail.com
+EMAIL_PASS=your-app-password
+```
+
+**Important**: Generate a secure JWT_SECRET:
+```bash
+node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
+```
+
+#### Step 5: Deploy
+- Click "Create Web Service"
+- Wait for deployment (first deploy takes 2-5 minutes)
+- Your API will be live at `https://your-service.onrender.com`
+
+#### Step 6: Initialize Admin Account
+After backend is deployed, run:
+```bash
+# Using Render Shell or local with production DB
+node scripts/seedAdmin.js
+```
+Default credentials: `admin@felicity.com` / `admin123`
+
+---
+
+### 🔄 Update Frontend with Backend URL
+
+After backend is deployed:
+1. Copy your Render backend URL
+2. Go to Vercel Dashboard → Settings → Environment Variables
+3. Update `VITE_API_URL` to your Render URL + `/api`
+   Example: `https://felicity-backend.onrender.com/api`
+4. Redeploy frontend (Vercel → Deployments → Redeploy)
+
+---
+
+## ✅ Post-Deployment Checklist
+
+### Backend Health Check
+- [ ] Visit `https://your-backend.onrender.com/` - should return "Felicity API Server Running"
+- [ ] Check logs in Render dashboard for any errors
+- [ ] Verify MongoDB connection successful
+
+### Frontend Testing  
+- [ ] Visit your Vercel URL
+- [ ] Test login with admin credentials
+- [ ] Create a test event
+- [ ] Register as participant
+- [ ] Test QR code generation
+- [ ] Test forum functionality
+- [ ] Test feedback submission
+- [ ] Test merchandise ordering
+
+### Features to Test
+- [x] Authentication (Login/Logout)
+- [x] Event Management (Create/Edit/Publish)
+- [x] Registration System
+- [x] QR Code Generation & Scanning
+- [x] Attendance Tracking
+- [x] Real-Time Discussion Forum
+- [x] Anonymous Feedback System  
+- [x] Password Reset Workflow
+- [x] Merchandise Management
+- [x] Analytics Dashboard
+
+---
+
+## 🔧 Troubleshooting
+
+### CORS Errors
+- Ensure `FRONTEND_URL` in backend matches your Vercel URL exactly
+- No trailing slash in URLs
+
+### API Connection Failed
+- Verify `VITE_API_URL` in Vercel includes `/api` suffix
+- Check backend is running (visit base URL)
+- Check browser console for exact error
+
+### Database Connection Failed  
+- Verify MongoDB connection string is correct
+- Ensure IP whitelist includes `0.0.0.0/0`
+- Check database user permissions
+
+### Build Failures
+**Frontend**:
+- Check Node version compatibility (v18+ recommended)
+- Verify all dependencies installed
+- Check for console errors in build logs
+
+**Backend**:
+- Verify `package.json` has correct start script
+- Check environment variables are set
+- Review Render build logs
+
+---
+
+## 📱 Mobile Optimization
+
+The application is responsive and works on:
+- ✅ Desktop browsers (Chrome, Firefox, Safari, Edge)
+- ✅ Mobile browsers (iOS Safari, Chrome Mobile)
+- ✅ Tablets
+
+---
+
+## 🔐 Security Features Implemented
+
+1. **Authentication**: JWT-based with bcrypt password hashing
+2. **Authorization**: Role-based access control (Admin/Organizer/Participant)
+3. **CORS**: Configured for specific frontend origin
+4. **Environment Variables**: Sensitive data stored securely
+5. **Password Reset**: Admin-approved workflow with auto-generated passwords
+6. **Anonymous Feedback**: Privacy-preserved user feedback
+7. **Input Validation**: Server-side validation for all endpoints
+
+---
+
+## 📊 Performance Optimization
+
+- Frontend assets minified and bundled
+- API responses cached where appropriate
+- Database indexes on frequently queried fields
+- Lazy loading for images and components
+- Real-time updates via polling (10s interval)
+5. Deploy
+
+**Netlify:**
+1. Push code to GitHub repository
+2. Go to https://netlify.com and create new site
+3. Set build command: `npm run build`
+4. Set publish directory: `dist`
+5. Set base directory: `frontend`
+6. Add environment variable:
+   - `VITE_API_URL`: Your backend URL
+7. Deploy
+
+### Backend (Render/Railway/Heroku)
+
+**Render:**
+1. Create new Web Service on Render
+2. Connect GitHub repository
+3. Set root directory to `backend`
+4. Set build command: `npm install`
+5. Set start command: `npm start`
+6. Add environment variables:
+   - `MONGODB_URI`: Your MongoDB Atlas connection string
+   - `JWT_SECRET`: Random secret key (REQUIRED FOR AUTH)
+   - `JWT_EXPIRE`: Token expiration (default: 7d)
+   - `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_USER`, `EMAIL_PASS`: Email configuration
+   - `FRONTEND_URL`: Your frontend URL
+   - `NODE_VERSION`: 18 (or latest LTS)
+7. Deploy
+
+**Railway:**
+1. Create new project on Railway
+2. Connect GitHub repository
+3. Add environment variables (same as above)
+4. Railway will auto-detect Node.js and deploy
+
+**Heroku:**
+```bash
+cd backend
+heroku create felicity-backend
+git push heroku main
+heroku config:set MONGODB_URI="your_mongodb_uri"
+heroku config:set JWT_SECRET="your_secret"
+# Add other environment variables
+```
+
+### Database (MongoDB Atlas)
+
+1. Go to https://mongodb.com/atlas
+2. Create free cluster
+3. Create database user
+4. Whitelist IP: 0.0.0.0/0 (allow from anywhere)
+5. Get connection string
+6. Add to backend environment variables
+
+### Initialize Admin Account
+
+After backend deployment:
+```bash
+# SSH into backend or use Render Shell
+npm run seed
+```
+
+Default admin credentials:
+- Email: admin@felicity.com
+- Password: admin123
+
+**⚠️ Change this password immediately after first login!**
+
+---
+
+## Testing the Deployment
+
+1. **Frontend**: Visit your Vercel/Netlify URL
+2. **Backend Health Check**: Visit `https://your-backend-url.com/` - should return `{"message":"Felicity API is running","status":"ok"}`
+3. **Login**: Try logging in as admin
+4. **Create Organizer**: Admin should be able to create organizer accounts
+5. **Signup**: Participants can sign up via the signup page
+
+---
+
+## Post-Deployment Checklist
+
+- [ ] Frontend loads correctly
+- [ ] Backend API responds
+- [ ] Database connected
+- [ ] Admin can login
+- [ ] Admin can create organizers
+- [ ] Organizers receive credential emails
+- [ ] Participants can signup
+- [ ] Participants can browse events
+- [ ] Events can be created and published
+- [ ] Registration and ticket generation works
+- [ ] Email notifications are sent
+
+---
+
+## Troubleshooting
+
+**CORS Errors:**
+- Ensure `FRONTEND_URL` in backend matches your deployed frontend URL exactly
+- Check CORS configuration in `backend/server.js`
+
+**Database Connection:**
+- Verify MongoDB Atlas connection string
+- Check IP whitelist (should allow 0.0.0.0/0 for cloud deployment)
+- Ensure database user has read/write permissions
+
+**Email Not Sending:**
+- Verify email credentials
+- For Gmail, use App Password (not regular password)
+- Check email settings in backend .env
+
+**Build Failures:**
+- Check Node.js version compatibility
+- Ensure all dependencies are in package.json
+- Check build logs for specific errors
