@@ -237,13 +237,18 @@ const EventDetail = () => {
                 {event.eventType === 'Merchandise' && event.merchandiseDetails && (
                   <div className="info-card">
                     <h3>Merchandise Details</h3>
+                    {event.merchandiseDetails.itemName && (
+                      <div className="info-item">
+                        <strong>Item Name:</strong> {event.merchandiseDetails.itemName}
+                      </div>
+                    )}
                     {event.merchandiseDetails.variants && event.merchandiseDetails.variants.length > 0 && (
                       <div className="info-item">
                         <strong>Variants:</strong>
                         <ul style={{ marginTop: '8px', paddingLeft: '20px' }}>
                           {event.merchandiseDetails.variants.map((variant, idx) => (
                             <li key={idx}>
-                              {variant.name} - ₹{variant.price} (Stock: {variant.stock})
+                              {variant.name} - ₹{variant.price} (Stock: {variant.stockQuantity || variant.stock})
                             </li>
                           ))}
                         </ul>

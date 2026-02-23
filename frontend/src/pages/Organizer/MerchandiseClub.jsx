@@ -85,11 +85,8 @@ const MerchandiseClub = () => {
                       <span className="stat-value">{event.stockQuantity || 0}</span>
                     </div>
                     <div className="stat">
-                      <span className="stat-label">Price Range:</span>
-                      <span className="stat-value">
-                        ₹{Math.min(...(event.merchandiseDetails?.variants?.map(v => v.price) || [0]))} - 
-                        ₹{Math.max(...(event.merchandiseDetails?.variants?.map(v => v.price) || [0]))}
-                      </span>
+                      <span className="stat-label">Price:</span>
+                      <span className="stat-value">₹280</span>
                     </div>
                   </div>
                 </div>

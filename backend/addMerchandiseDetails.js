@@ -16,7 +16,7 @@ const addMerchandiseDetails = async () => {
     const eventSchema = new mongoose.Schema({}, { strict: false });
     const Event = mongoose.model('Event', eventSchema);
 
-    const event = await Event.findOne({ eventName: 'Merchandise' });
+    const event = await Event.findOne({ eventName: 'Merch Distribution' });
     
     if (!event) {
       console.log('Merchandise event not found');
@@ -32,17 +32,48 @@ const addMerchandiseDetails = async () => {
       colors: ['Red', 'Blue', 'Black', 'White'],
       variants: [
         {
-          name: 'Standard T-Shirt',
+          name: 'Primitive T-Shirt',
           price: 280,
           stockQuantity: 30
         },
         {
-          name: 'Premium T-Shirt',
+          name: 'Non Primitive T-Shirt',
           price: 450,
           stockQuantity: 20
         }
       ]
     };
+
+    // Example: When participant places an order, they can select size and color
+    // This would be handled in the order creation logic, e.g.:
+    // const participantOrder = {
+    //   tshirtVariant: 'Premium T-Shirt',
+    //   price: 280, // or 450
+    //   size: 'M', // selected by participant
+    //   color: 'Blue', // selected by participant
+    //   quantity: 1,
+    //   paymentProof: 'uploaded_file_url',
+    // };
+    // Save participantOrder to database as part of MerchandiseOrder model
+    
+      // Merchandise options
+      const merchandiseOptions = [
+        {
+          type: 'premium',
+          cost: 280,
+        },
+        {
+          type: 'premium',
+          cost: 450,
+        },
+        {
+          type: 'non-premium',
+          cost: 180,
+        },
+      ];
+    
+      // Example usage: Add these options to the merchandise details
+      // You can integrate this array into your merchandise creation or update logic as needed
 
     await event.save();
     
