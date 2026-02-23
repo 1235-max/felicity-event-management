@@ -49,30 +49,47 @@ const SignupParticipant = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    // Validate IIIT email if applicable
-    if (formData.email.includes('iiit.ac.in') && 
-        !formData.email.match(/@(iiit|students\.iiit)\.ac\.in$/)) {
-      toast.error('IIIT participants must use their IIIT email');
-      return;
-    }
+  if (
+    formData.email.includes('iiit.ac.in') &&
+    !formData.email.match(/@(iiit|students\.iiit)\.ac\.in$/)
+  ) {
+    toast.error('IIIT participants must use their IIIT email');
+    return;
+  }
 
-    setLoading(true);
+  setLoading(true);
 
-    try {
-      const response = await authAPI.signup(formData);
-      const { token, user } = response.data;
-      
-      login(token, user);
-      toast.success('Signup successful!');
-      navigate('/participant/dashboard');
-    } catch (error) {
-      toast.error(error.response?.data?.message || 'Signup failed');
-    } finally {
-      setLoading(false);
-    }
-  };
+  try {
+    // Split full name into first + last
+    const nameParts = formData.name.trim().split(' ');
+    const firstName = nameParts[0];
+    const lastName = nameParts.slice(1).join(' ') || ' ';
+
+    const payload = {
+      firstName,
+      lastName,
+      email: formData.email,
+      password: formData.password,
+      contactNumber: formData.phone,
+      college: formData.college
+    };
+
+    const response = await authAPI.signup(payload);
+
+    const { token, user } = response.data;
+
+    login(token, user);
+    toast.success('Signup successful!');
+    navigate('/participant/dashboard');
+
+  } catch (error) {
+    toast.error(error.response?.data?.message || 'Signup failed');
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="auth-container">
